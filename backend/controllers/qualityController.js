@@ -21,9 +21,6 @@ const uploadFile = asyncHandler(
                 url: 'http://0.0.0.0:8080/process',
                 json: true,
                 body: body,
-                  headers: {
-                    'Content-type': 'multipart/form-data',
-                  },
               };
               request.post(postBody, function (error, response, body) {
                 console.error('error:', error);
