@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+  processor:
+    restart: always
+    container_name: processor
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: processor:master
+    volumes:
+      - .:/app
+    command: bash -c "python3 app.py"
+    network_mode: host

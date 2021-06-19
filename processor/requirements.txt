@@ -1,0 +1,8 @@
+flask==2.0.1
+icd10-cm==0.0.4
+fuzzywuzzy==0.18.0
+numpy==1.19.5
+opencv-python==4.5.2.54
+Pillow==8.2.0
+pytesseract==0.3.7
+python-Levenshtein==0.12.2
