@@ -12,29 +12,30 @@ const uploadFile = asyncHandler(
             //     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
             //     console.log('body:', body); // Print the data received
             //     res.send(body); //Display the response on the website
-            // });  
+            // });
             const file = req.files.file
             console.log("file", file)
             const body = file
 
               const postBody = {
-                url: 'http://0.0.0.0:8080/processor',
+                url: 'http://0.0.0.0:8080/process',
+                json: true,
                 body: body,
                   headers: {
                     'Content-type': 'multipart/form-data',
                   },
               };
               request.post(postBody, function (error, response, body) {
-                console.error('error:', error); 
-                console.log('statusCode:', response && response.statusCode); 
-                console.log('body:', body); 
-                res.send(body); 
-            });  
+                console.error('error:', error);
+                console.log('statusCode:', response && response.statusCode);
+                console.log('body:', body);
+                res.send(body);
+            });
             // res.status(201).json("File has been sended")
         } catch (e) {
             res.status(500).json({message:`File is not added, ${e}`})
         }
-     
+
     }
 )
 
