@@ -2,6 +2,7 @@ import re
 import cv2
 import icd10
 import json
+import PyPDF2
 import numpy as np
 import pandas as pd
 
@@ -41,6 +42,27 @@ def parse_image(image_path):
     icd_codes = re.findall(pattern, img_data['text'])
     icd_codes = list(filter(lambda x: x != 'B10', icd_codes))
     return icd_codes
+
+def parse_pdf(pdf_path):
+    """ Find ICD-10 codes in pdf.
+
+    Args:
+        pdf_path (string): pdf path to process.
+
+    Returns:
+        list: list of all icd-10 codes in pdf.
+    """
+
+    with open(pdf_path, 'rb') as pdf_file:
+        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+        pdf_pages = pdf_reader.numPages
+        text = []
+        for i in pdf_page:
+            pdf_page = pdf_reader.getPage(i)
+            text.append(pdf_page.extractText())
+    icd_re = re.compile('[A-Z]\d+\.?\d+?')
+    icd = re.findall(icd_re, text)
+    return icd
 
 def find_icd_block(icd_codes):
     """Find hierarchy block for each icd code.
@@ -124,14 +146,16 @@ def xls_to_json(xls_path, json_path):
 def test():
     list_base = ['привет', 'как дела', 'пойдем']
     phrase = 'делы'
-    phrase_detect_result = phrase_detect(list_base, phrase)
-    parse_image_result = parse_image('photo_2021-06-10_09-49-26.jpg')
-    find_icd_block_result = find_icd_block(parse_image_result)
-    icd_treatment_result = icd_treatment(parse_image_result)
+    #phrase_detect_result = phrase_detect(list_base, phrase)
+    #parse_image_result = parse_image('photo_2021-06-10_09-49-26.jpg')
+    #find_icd_block_result = find_icd_block(parse_image_result)
+    #icd_treatment_result = icd_treatment(parse_image_result)
+    parse_pdf_result = parse_pdf('data/epic.pdf')
+    print('parse_pdf result:', parse_pdf_result)
     #print('phrase_detect result:', phrase_detect_result)
-    print('parse_image result:', parse_image_result)
-    print('code_block result:', find_icd_block_result)
-    print('icd_treatment_result:', icd_treatment_result)
+    #print('parse_image result:', parse_image_result)
+    #print('code_block result:', find_icd_block_result)
+    #print('icd_treatment_result:', icd_treatment_result)
 
 if __name__ == "__main__":
     test()
