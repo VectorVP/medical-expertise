@@ -1,0 +1,20 @@
+.container {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 40px;
+  &_left {
+  }
+  &_right {
+  }
+}
+
+.around_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  min-height: 400px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+}

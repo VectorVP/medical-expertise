@@ -1,0 +1,21 @@
+.drop_area {
+  width: 800px;
+  height: 60px;
+  border: 1px solid black;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.drop {
+  width: 800px;
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
