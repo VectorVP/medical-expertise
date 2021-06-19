@@ -26,6 +26,20 @@ def preprocessor(image_str):
     image = cv2.imdecode(image, 0)
     return image
 
+def icd_regex(text):
+    """ Find ICD-10 codes in the text.
+
+    Args:
+        text (string): text to process.
+
+    Returns:
+        list: list of all icd-10 codes in text.
+    """
+
+    pattern = r'[A-Z]\d+\.?\d+?'
+    icd_codes = re.findall(pattern, text)
+    return icd_codes
+
 def parse_image(image_path):
     """ Find ICD-10 codes in the image.
 
@@ -38,10 +52,9 @@ def parse_image(image_path):
 
     img = cv2.imread(image_path)
     img_data = pytesseract.image_to_string(img, output_type=Output.DICT)
-    pattern = r'[A-Z]\d+\.?\d+?'
-    icd_codes = re.findall(pattern, img_data['text'])
+    icd_codes = icd_regex(img_data['text'])
     icd_codes = list(filter(lambda x: x != 'B10', icd_codes))
-    return icd_codes
+    return icd_codes_image
 
 def parse_pdf(pdf_path):
     """ Find ICD-10 codes in pdf.
@@ -60,9 +73,8 @@ def parse_pdf(pdf_path):
         for i in pdf_page:
             pdf_page = pdf_reader.getPage(i)
             text.append(pdf_page.extractText())
-    icd_re = re.compile('[A-Z]\d+\.?\d+?')
-    icd = re.findall(icd_re, text)
-    return icd
+    icd_codes_pdf = icd_regex(text)
+    return icd_codes_pdf
 
 def find_icd_block(icd_codes):
     """Find hierarchy block for each icd code.
