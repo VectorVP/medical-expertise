@@ -3,6 +3,7 @@ import cv2
 import icd10
 import json
 import PyPDF2
+import html2text
 import numpy as np
 import pandas as pd
 
@@ -11,6 +12,9 @@ from pytesseract import Output
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+
+from selectolax.parser import HTMLParser
+
 
 def preprocessor(image_str):
     """ Convert image-string (bytes) to original image.
@@ -76,6 +80,33 @@ def parse_pdf(pdf_path):
     icd_codes_pdf = icd_regex(text)
     return icd_codes_pdf
 
+def parse_html(html_path):
+    """ Parse html file and get list of sentences.
+
+    Args:
+        htlm_path (string): html path to parse.
+
+    Returns:
+        list of strings: list of sentences.
+    """
+
+    full_text = []
+    with open(html_path,  'r') as html_file:
+        html = html_file.readlines()
+        for i in html:
+            tree = HTMLParser(i)
+            if tree.body is None:
+                return None
+            for tag in tree.css('script'):
+                tag.decompose()
+            for tag in tree.css('style'):
+                tag.decompose()
+            text = tree.body.text(separator='')
+            text = ' '.join(text.split())
+            full_text.append(text)
+    full_text = list(filter(lambda x: x != '', full_text))
+    return full_text
+
 def find_icd_block(icd_codes):
     """Find hierarchy block for each icd code.
     With icd10 library it is also possible (e.g. code = J20.0):
@@ -109,11 +140,14 @@ def icd_treatment(icd_list):
         dict: {'icd code': ['treatment', 'plan']}.
     """
 
-    procedures = json.load(open("203.json", 'r'))
+    procedures = json.load(open("data/203.json", 'r'))
     procedures_dict = {}
     for i in icd_list:
-        values = [value for key, value in procedures.items() if i in key]
-        procedures_dict[i] = values[0]
+        try:
+            values = [value for key, value in procedures.items() if i in key]
+            procedures_dict[i] = values[0]
+        except:
+            continue
     return procedures_dict
 
 def phrase_detect(list_base, phrase):
@@ -154,20 +188,27 @@ def xls_to_json(xls_path, json_path):
         json.dump(dict_data, outfile, ensure_ascii = False, indent = 4)
     return f"Json file created: {json_path}"
 
-
 def test():
     list_base = ['привет', 'как дела', 'пойдем']
     phrase = 'делы'
     #phrase_detect_result = phrase_detect(list_base, phrase)
     #parse_image_result = parse_image('photo_2021-06-10_09-49-26.jpg')
     #find_icd_block_result = find_icd_block(parse_image_result)
-    #icd_treatment_result = icd_treatment(parse_image_result)
-    parse_pdf_result = parse_pdf('data/epic.pdf')
-    print('parse_pdf result:', parse_pdf_result)
+    #icd_treatment_result = icd_treatment(['J34.2'])
+    #parse_pdf_result = parse_pdf('data/epic.pdf')
+    #print('parse_pdf result:', parse_pdf_result)
     #print('phrase_detect result:', phrase_detect_result)
     #print('parse_image result:', parse_image_result)
     #print('code_block result:', find_icd_block_result)
     #print('icd_treatment_result:', icd_treatment_result)
+    parse_html_result = parse_html('data/SMSV8_v.3.4.html')
+    res = []
+    for i in parse_html_result:
+        res.extend(icd_regex(i))
+    print(res)
+    treatments = icd_treatment(res)
+    print(treatments)
+    for i in parse_html_result:
 
 if __name__ == "__main__":
     test()
