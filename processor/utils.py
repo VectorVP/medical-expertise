@@ -1,20 +1,28 @@
+""" Process visual data (images, pdf, html), detecs ICD-10 codes and helps analyze completeness of medical help.
+Default option is to process html file.
+
+Usage:
+    python3 utils.py
+
+Author:
+    Vladislav Tumko - 20.06.21
+"""
+
 import re
-import cv2
-import icd10
-import json
 import time
-import PyPDF2
+import json
+import cv2
 import numpy as np
 import pandas as pd
 
+import icd10
+import PyPDF2
 import pytesseract
-from pytesseract import Output
 
+from pytesseract import Output
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
-
 from selectolax.parser import HTMLParser
-
 
 def preprocessor(image_str):
     """ Convert image-string (bytes) to original image.
