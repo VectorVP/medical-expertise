@@ -37,7 +37,7 @@ def icd_regex(text):
         text (string): text to process.
 
     Returns:
-        list: list of all icd-10 codes in text.
+        list: list of all ICD-10 codes in text.
     """
 
     pattern = r'[A-Z]\d+\.?\d+?'
@@ -51,7 +51,7 @@ def parse_image(image_path):
         image_path (string): image path to process.
 
     Returns:
-        list: list of all icd-10 codes in image.
+        list: list of all ICD-10 codes in image.
     """
 
     img = cv2.imread(image_path)
@@ -67,7 +67,7 @@ def parse_pdf(pdf_path):
         pdf_path (string): pdf path to process.
 
     Returns:
-        list: list of all icd-10 codes in pdf.
+        list: list of all ICD-10 codes in pdf.
     """
 
     with open(pdf_path, 'rb') as pdf_file:
@@ -137,7 +137,7 @@ def icd_treatment(icd_list):
         icd_list (list of strings): list of icd10 codes.
 
     Returns:
-        dict: {'icd code': ['treatment', 'plan']}.
+        dict: {'ICD-10 code': ['treatment', 'plan']}.
     """
 
     procedures = json.load(open("data/203.json", 'r'))
@@ -165,7 +165,7 @@ def phrase_detect(list_base, phrase):
     return list_match[0]
 
 def xls_to_json(xls_path, json_path):
-    """ Convert xls file with columns ICD and KPI to json file.
+    """ Convert xls file with columns named ICD and KPI to json file.
     Due to internal data structure this approach is better than built-in pandas tool.
 
     Args:
@@ -189,14 +189,14 @@ def xls_to_json(xls_path, json_path):
     return f"Json file created: {json_path}"
 
 def process_html(html_path, threshold, icd_codes=None):
-    """ Parse html, get icd, procedures and find completed procedures due to rules.
+    """ Parse html, get ICD-10, procedures and find completed procedures due to rules.
 
     Args:
-        html_path (string): path to html file - input.
+        html_path (string): path to html file.
         threshold (int): treshold to accept phrase predictions.
-        icd_codes (list of strings): list of icd codes.
+        icd_codes (list of strings): list of ICD-10 codes.
     Returns:
-        tuple: returns icd code, corresponding procedures and completed procedures as a tuple.
+        tuple: returns first ICD-10 code, corresponding procedures and completed procedures as a tuple.
     """
 
     html_parsed = parse_html(html_path)
