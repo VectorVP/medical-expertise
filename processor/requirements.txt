@@ -6,3 +6,5 @@ opencv-python==4.5.2.54
 Pillow==8.2.0
 pytesseract==0.3.7
 python-Levenshtein==0.12.2
+selectolax==0.2.12
+PyPDF2==1.26.0
