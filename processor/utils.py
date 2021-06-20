@@ -214,7 +214,10 @@ def test():
     start = time.time()
     result = process_html('data/SMSV8_v.3.4.html', 60)
     end = time.time() - start
-    print(f'PROCESSING RESULT: {result}\nTOTAL TIME: {end}')
+    print(f'ICD-10 CODE: {result[0]} \
+          \n\nPROCEDURES: {result[1]} \
+          \n\nCOMPLETED PROCEDURES: {result[2]} \
+          \n\nTOTAL TIME: {end}')
 
 if __name__ == "__main__":
     test()
