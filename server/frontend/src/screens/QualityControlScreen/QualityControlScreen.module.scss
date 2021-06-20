@@ -1,0 +1,61 @@
+.container {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 40px;
+}
+.around_tabs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  height: 10px;
+  background-color: none;
+}
+
+.around_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  min-height: 400px;
+  width: 100%;
+  background-color: none;
+}
+.input_age {
+  background-color: white;
+  border: 0;
+  border-radius: 15px;
+  color: rgb(73, 73, 73);
+  font-size: 20px;
+  letter-spacing: 1px;
+  outline: 0;
+  text-align: center;
+  width: 200px;
+  height: 40px;
+  padding: 10px;
+  margin: 20px;
+  margin-left: 0;
+}
+.into_form {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+}
+
+.selectHard {
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 15px;
+  border: none;
+  padding: 10px;
+  margin: 20px;
+  margin-left: 0px;
+}
+
+.label_text {
+  font-size: 20px;
+}
