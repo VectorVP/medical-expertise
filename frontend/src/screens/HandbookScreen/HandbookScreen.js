@@ -24,7 +24,7 @@ const HandbookScreen = () => {
                 <h1 style={{paddingTop:'10px'}}>Справочник</h1>
                     <div className={classes.around_info}>
                         <div style={{fontSize:"24px"}}> 
-                           <Drop/>
+                         
                         </div>
                     </div>
                 </div>

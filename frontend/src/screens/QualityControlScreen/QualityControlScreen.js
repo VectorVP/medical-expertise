@@ -11,6 +11,7 @@ import Menu from '../../components/Menu/Menu'
 import HelpMenu from '../../components/HelpMenu/HelpMenu.js'
 import Drop from '../../components/Drop/Drop'
 import Tabs from '../../components/Tabs/Tabs'
+import FileInput from '../../components/FileUpload/FileUpload'
 
 const QualityControlScreen = () => {
     const dispatch = useDispatch()
@@ -20,26 +21,29 @@ const QualityControlScreen = () => {
 
     const qualityImage = useSelector(state => state.qualityImage)
     const { image } = qualityImage
-    
-    const userLogin = useSelector( state => state.userLogin )
-    const { userInfo } = userLogin
 
     const dataFlask = useSelector(state => state.qualityData)
     const { flaskData } = dataFlask
 
     console.log("tab ", tab, "image ", image, "flaskData ", flaskData)
     const [age, setAge] = useState('')
-    const [hard, setHard] = useState('')
+    const [type, setType] = useState('')
+    const [place, setPlace] = useState('')
     const [MKB, setMKB] = useState('')
+
+    const onSubmitSet = (e) => {
+        e.preventDefault()
+        dispatch(setQualityTab(3))
+    }
 
     const onSubmitSend = (e) => {
         e.preventDefault()
-        console.log("age ", age, "hard ", hard, "MKB ", MKB)
+        console.log("age ", age, "hard ", type, "MKB ", MKB)
         dispatch(setQualityTab(2))
         dispatch(sendQualityData(image))
-        // dispatch(sendQualityData(image, age, hard, MKB))
         setAge('')
-        setHard('')
+        setType('')
+        setPlace('')
         setMKB('')
     }
 
@@ -58,7 +62,7 @@ const QualityControlScreen = () => {
     
                 <LayoutContainer>
                     <div>
-                    <h1 style={{paddingTop:'10px'}}>Экспертиза качества медицинской помощи</h1>
+                    <h1 style={{paddingTop:'10px', paddingBottom:"20px"}}>Экспертиза качества медицинской помощи</h1>
                         <div className={classes.around_tabs}>
                             <Tabs number={tab} variant="quality"/>
                         </div>
@@ -69,9 +73,7 @@ const QualityControlScreen = () => {
                                 </div>
                                 <div style={{display:"flex"}}>
                                     <Drop image={image}/>
-                                    <Button variant="contained" color="primary" style={{marginLeft:"20px", marginTop:"0px", width:"100%", backgroundColor:"#3f8cff"}}> 
-                                        Загрузить 
-                                    </Button>
+                                    <FileInput label=""/>
                                 </div>
                             </div>
                             <div style={{fontSize:"24px", width:"100%"}}> 
@@ -84,16 +86,25 @@ const QualityControlScreen = () => {
                                                 <input className={classes.input_age} type="text" name="age" value={age} required id="age" onChange={(e) => setAge(e.target.value)}/>
                                             </label>
                                             <label for="Hard">
-                                                <div>Сложность лечения</div>
-                                                <select className={classes.selectHard} value={hard} onChange={(e) => setHard(e.target.value)}> 
+                                                <div className={classes.label_text}>Вид оказываемой помощи</div>
+                                                <select className={classes.selectHard} value={type} onChange={(e) => setType(e.target.value)}> 
                                                     <option value="1"></option> 
                                                     <option value="2">Apples</option> 
                                                 </select>
                                             </label>
+                                            <div style={{marginLeft:"20px"}}>
+                                                <label for="Hard">
+                                                    <div className={classes.label_text}>Место оказываемой помощи</div>
+                                                    <select className={classes.selectHard} value={place} onChange={(e) => setPlace(e.target.value)}> 
+                                                        <option value="1"></option> 
+                                                        <option value="2">Apples</option> 
+                                                    </select>
+                                                </label>
+                                            </div>
                                         </div>
                                         <div style={{marginTop:"0px", marginBottom:"10px", width:"100%"}}>
                                             <label for="MKB">
-                                                <div>МКБ-10</div>
+                                                <div className={classes.label_text}>МКБ-10</div>
                                                 <select className={classes.selectHard} value={MKB} onChange={(e) => setMKB(e.target.value)}>
                                                     <option value="1"></option> 
                                                     <option value="2">Apples</option> 
@@ -101,7 +112,7 @@ const QualityControlScreen = () => {
                                             </label>
                                         </div>
                                         <div style={{width:"100%"}}>
-                                            <Button variant="contained" color="primary" type="submit" style={{marginTop:"0px", width:"100%", backgroundColor:"#3f8cff"}}>
+                                            <Button variant="contained" color="primary" type="submit" style={{height:"60px", marginTop:"0px", width:"100%", backgroundColor:"#3f8cff", borderRadius:"15px"}}>
                                                 ГОТОВО 
                                             </Button>
                                         </div>
@@ -113,12 +124,13 @@ const QualityControlScreen = () => {
                 </LayoutContainer>
     
                 <div className={classes.container_right}>
-                    <HelpMenu userInfo={userInfo}/>
+                    <HelpMenu userInfo={""}/>
                 </div>
             </div>
         </>
         )
     }
+  
     if (tab === 2) {
         return (
             <>
@@ -126,29 +138,49 @@ const QualityControlScreen = () => {
                 <div className={classes.container_left}>
                     <Menu />
                 </div>
-    
                 <LayoutContainer>
                     <div>
-                    <h1 style={{paddingTop:'10px'}}>Экспертиза качества медицинской помощи</h1>
+                    <h1 style={{paddingTop:'10px', paddingBottom:"20px"}}>Экспертиза качества медицинской помощи</h1>
                         <div className={classes.around_tabs}>
                             <Tabs number={tab} variant="quality"/>
                         </div>
                         <div className={classes.around_info}>
-                            результат от фласка
+                            <div>
+                                {
+                                    flaskData 
+                                    ? 
+                                    flaskData
+                                    :
+                                    <>
+                                    <p> Коды болезни: </p>
+                                    <p>'J34.2','J34.2','J34.2'</p>
+                                    <p> Диапазон: </p>
+                                    <p> J00-J99 </p>
+                                    <p> Результат: </p>
+                                    <p> J34.2 </p> 
+                                    <p>Выполнена эндоскопия плости носа и/или рентгенография придаточных пазух носа</p>
+                                    <p>Выполнено хирургическое вмешательство (при наличии медицинских показаний и отсутствии противопоказаний)</p>
+                                    <p>Отсутствие кровотечения в послеоперационном периоде</p>
+                                    <p>Отсутствие гнойно-септических осложнений в период госпитализации</p>
+                                    </>
+                                }
+                            </div>
+                            <form onSubmit={(e) => onSubmitSet(e)}>
+                                <Button 
+                                    variant="contained" 
+                                    color="primary"
+                                    type="submit" 
+                                    style={{marginTop:"0px", backgroundColor:"#3f8cff"}}
+                                    >
+                                    СФОРМИРОВАТЬ ОТЧЕТ
+                                </Button>
+                            </form>
                         </div>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            style={{marginTop:"0px", width:"100%", backgroundColor:"#3f8cff"}}
-                            >
-                            СФОРМИРОВАТЬ ОТЧЕТ
-                        </Button>
                     </div>
                 </LayoutContainer>
     
                 <div className={classes.container_right}>
-                    <HelpMenu userInfo={userInfo}/>
+                    <HelpMenu userInfo={""}/>
                 </div>
             </div>
         </>
@@ -161,24 +193,24 @@ const QualityControlScreen = () => {
                 <div className={classes.container_left}>
                     <Menu />
                 </div>
-    
-                <LayoutContainer>
-                    <div>
-                    <h1 style={{paddingTop:'10px'}}>Экспертиза качества медицинской помощи</h1>
-                      Отчет
-                      <Button 
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            style={{marginTop:"0px", width:"100%", backgroundColor:"#3f8cff"}}
-                            >
-                            ЗАВЕРШИТЬ
-                        </Button>
-                    </div>
-                </LayoutContainer>
-    
+                    <LayoutContainer>
+                        <div>
+                        <h1 style={{paddingTop:'10px', paddingBottom:"20px"}}>Экспертиза качества медицинской помощи</h1>
+                            <div className={classes.around_tabs}>
+                                <Tabs number={tab} variant="quality"/>
+                            </div>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                type="submit" 
+                                style={{marginTop:"0px", width:"100%", backgroundColor:"#3f8cff"}}
+                                >
+                                ЗАВЕРШИТЬ
+                            </Button>
+                        </div>
+                    </LayoutContainer>
                 <div className={classes.container_right}>
-                    <HelpMenu userInfo={userInfo}/>
+                    <HelpMenu userInfo={""}/>
                 </div>
             </div>
         </>

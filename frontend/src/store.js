@@ -10,6 +10,7 @@ import { preloaderReducer } from './reducers/preloaderReducer'
 import { doctorsListPeducer, doctorPeducer } from './reducers/doctorReducer'
 import { userLoginPeducer, userRegisterPeducer, userDetailsReducer, linkReducer } from './reducers/userReducer'
 import { qualityReducer, flaskDataReducer, setImageReducer } from './reducers/qualityReducer'
+import { placeReducer } from './reducers/homeReducer'
 
 const reducer = combineReducers({
     news:newsListPeducer,
@@ -24,6 +25,7 @@ const reducer = combineReducers({
     qualityNumber: qualityReducer,
     qualityData: flaskDataReducer,
     qualityImage: setImageReducer,
+    place: placeReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? 

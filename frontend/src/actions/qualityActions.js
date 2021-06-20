@@ -4,7 +4,6 @@ import {
     DATA_FROM_FLASK, 
 } from '../constants/qualityConstants'
 import axios from "axios"
-import { ContactSupportOutlined } from '@material-ui/icons'
 
 export const setQualityTab = (number) => async (dispatch) => {
     dispatch({type: SET_QUALITY_TABS, payload: number})
@@ -15,9 +14,14 @@ export const setImage = (image) => async (dispatch) => {
     dispatch({type: SET_QUALITY_IMAGE, payload: image})
 }
 
-export const sendQualityData = (formData) => async (dispatch) => {
+export const sendQualityData = (formData, age, type, mkb) => async (dispatch) => {
     try {
-        const { data } = await axios.post(`/api/qualityControl`, formData)
+        const { data } = await axios.post(`/api/qualityControl`, formData, {
+            headers: {
+                'Content-Type': 'text/plain'
+            }
+        })
+       
         dispatch({
             type: DATA_FROM_FLASK,
             payload: data
@@ -25,5 +29,4 @@ export const sendQualityData = (formData) => async (dispatch) => {
     } catch (error) {
         console.log("error ", error)
     }
-   
 }

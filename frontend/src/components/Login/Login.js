@@ -54,11 +54,11 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Welcome to the TeleHealth Services.
+            Добро пожаловать!
           </Typography>
           <LinkContainer to="/" style={{marginTop:"20px"}}>
                 <Button variant="contained" color="primary">
-                    Go Back
+                    Вернуться на главную
                 </Button>
           </LinkContainer>  
           <form className={classes.form} onSubmit={onSigninSubmit} noValidate>
@@ -95,17 +95,17 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               color="primary"
               className={classes.submit}
             >
-              Login
+              Войти
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Забыли пароль?
                 </Link>
               </Grid>
               <Grid item>
                 <NavLink to={"/register"}>
-                  "Don't have account? Registration."
+                  "Нет аккаунта? Регистрация."
                 </NavLink>
               </Grid>
             </Grid>

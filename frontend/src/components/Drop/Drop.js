@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { setImage, sendQualityData } from '../../actions/qualityActions'
-import axios from 'axios'
 import classes from './Drop.module.scss'
 
 const Drop = ({image}) => {
@@ -15,14 +14,20 @@ const Drop = ({image}) => {
         e.preventDefault()
         setDrag(false)
     }
+
+    // const toBase64 = file => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => reader.result;
+    //     return reader.result
+    // }
     const onDropHandler = async (e) => {
         e.preventDefault()
         setDrag(false)
         let files = [...e.dataTransfer.files]
         const formData = new FormData()
-        formData.append('file', files[0])
+        formData.append('epikris', files[0])
         dispatch(setImage(formData))
-        await dispatch(sendQualityData(image))
         console.log("files", files)
     }
     return (
@@ -45,7 +50,7 @@ const Drop = ({image}) => {
                  onDragLeave={e => dragLeaveHandler(e)}
                  onDragOver={e => dragStartHandler(e)}
                  >
-                    Перетащите файлы, чтобы загрузить
+                   <p style={{fontSize:"18px"}}> Перетащите файлы, чтобы загрузить или нажмите на кнопку </p>
                 </div>
             }
             

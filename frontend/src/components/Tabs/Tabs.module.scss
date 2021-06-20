@@ -4,15 +4,15 @@
   flex-direction: row;
   align-items: center;
   position: relative;
-  width: 742px;
+  width: 842px;
 }
 
 .tab_one {
   color: rgb(0, 0, 0);
   position: absolute;
   background-color: #fff;
-  width: 252px;
-  height: 44px;
+  width: 285px;
+  height: 58px;
   text-align: center;
   &_right {
     text-align: center;
@@ -22,8 +22,8 @@
     background-color: #fff;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    width: 245px;
-    height: 44px;
+    width: 278px;
+    height: 58px;
   }
   &_right_active {
     text-align: center;
@@ -31,8 +31,8 @@
     position: absolute;
     right: 0;
     background-color: #3f8cff;
-    width: 245px;
-    height: 44px;
+    width: 278px;
+    height: 58px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
   }
@@ -42,8 +42,8 @@
     position: absolute;
     left: 0;
     background-color: #fff;
-    width: 245px;
-    height: 44px;
+    width: 278px;
+    height: 58px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
   }
@@ -53,8 +53,8 @@
     position: absolute;
     left: 0;
     background-color: #3f8cff;
-    width: 245px;
-    height: 44px;
+    width: 278px;
+    height: 58px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
   }
@@ -63,7 +63,7 @@
     color: rgb(0, 0, 0);
     position: absolute;
     background-color: #3f8cff;
-    width: 252px;
-    height: 44px;
+    width: 285px;
+    height: 58px;
   }
 }

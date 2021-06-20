@@ -74,11 +74,11 @@ const Register = ({ onSigninSubmit,
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Welcome to the TeleHealth Services.
+            Добро пожаловать!
           </Typography>
           <LinkContainer to="/" style={{marginTop:"20px"}}>
                 <Button variant="contained" color="primary">
-                    Go Back
+                    Вернуться на главную
                 </Button>
           </LinkContainer>  
           <form className={classes.form} onSubmit={onSigninSubmit} noValidate>
@@ -181,17 +181,17 @@ const Register = ({ onSigninSubmit,
               color="primary"
               className={classes.submit}
             >
-              Register
+              Зарегестриорваться
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Забыли пароль?
                 </Link>
               </Grid>
               <Grid item>
                 <NavLink to={"/login"}>
-                  "Do you have account? Login."
+                  "Есть аккаунт? Войти."
                 </NavLink>
               </Grid>
             </Grid>
