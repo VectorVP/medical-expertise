@@ -25,8 +25,8 @@
 ![](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white")
 
 ### Contributors
-Vladislav Tumko, Data Scientist - https://t.me/@vectorvp <br/> 
-Pavel Melkov, Fullstack developer - https://t.me/@PavelMelkov <br/>
-Fedor Dobryanskiy, Data Scientist - https://t.me/@mlenzovet <br/>
-Anastasia Elistratova, Designer - https://t.me/@elistratova_a <br/>
-Yuriy Komarov, medical expert - https://t.me/@Anofelesoff
+Vladislav Tumko, Data Scientist, Backend - https://t.me/@vectorvp <br/> 
+Pavel Melkov, Fullstack JS developer - https://t.me/@PavelMelkov <br/>
+Fedor Dobryanskiy, MIS developer - https://t.me/@mlenzovet <br/>
+Anastasia Elistratova, UI/UX Designer - https://t.me/@elistratova_a <br/>
+Yuriy Komarov, Medical expert - https://t.me/@Anofelesoff
