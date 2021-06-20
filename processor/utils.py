@@ -2,8 +2,8 @@ import re
 import cv2
 import icd10
 import json
+import time
 import PyPDF2
-import html2text
 import numpy as np
 import pandas as pd
 
@@ -211,8 +211,10 @@ def process_html(html_path, threshold, icd_codes=None):
     return first_pair[0], first_pair[1], phrases
 
 def test():
+    start = time.time()
     result = process_html('data/SMSV8_v.3.4.html', 60)
-    print(result)
+    end = time.time() - start
+    print(f'PROCESSING RESULT: {result}\nTOTAL TIME: {end}')
 
 if __name__ == "__main__":
     test()
