@@ -207,7 +207,8 @@ def process_html(html_path, threshold, icd_codes=None):
     treatments = icd_treatment(icd_codes)
     first_pair = next(iter(treatments.items())) # Take first key-value pair
     phrases = [phrase_detect(first_pair[1], i) for i in html_parsed] # Compare and detect similar phrases
-    phrases = list(filter(lambda x: x[1] > threshold, phrases))
+    phrases = list(filter(lambda x: x[1] > threshold, phrases)) # Keep only detections with confidence > threshold
+    phrases = list(set([i for i in phrases])) # Remove similar tuples
     return first_pair[0], first_pair[1], phrases
 
 def test():
