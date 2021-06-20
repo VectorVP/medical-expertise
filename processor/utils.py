@@ -185,29 +185,34 @@ def xls_to_json(xls_path, json_path):
 
     dict_data = dict(zip(icd_new, kpi_new))
     with open(json_path, "w") as outfile:
-        json.dump(dict_data, outfile, ensure_ascii = False, indent = 4)
+        json.dump(dict_data, outfile, ensure_ascii=False, indent = 4)
     return f"Json file created: {json_path}"
 
+def process_html(html_path, threshold, icd_codes=None):
+    """ Parse html, get icd, procedures and find completed procedures due to rules.
+
+    Args:
+        html_path (string): path to html file - input.
+        threshold (int): treshold to accept phrase predictions.
+        icd_codes (list of strings): list of icd codes.
+    Returns:
+        tuple: returns icd code, corresponding procedures and completed procedures as a tuple.
+    """
+
+    html_parsed = parse_html(html_path)
+    if not icd_codes:
+        icd_codes = []
+        for i in html_parsed:
+            icd_codes.extend(icd_regex(i))
+    treatments = icd_treatment(icd_codes)
+    first_pair = next(iter(treatments.items())) # Take first key-value pair
+    phrases = [phrase_detect(first_pair[1], i) for i in html_parsed] # Compare and detect similar phrases
+    phrases = list(filter(lambda x: x[1] > threshold, phrases))
+    return first_pair[0], first_pair[1], phrases
+
 def test():
-    list_base = ['привет', 'как дела', 'пойдем']
-    phrase = 'делы'
-    #phrase_detect_result = phrase_detect(list_base, phrase)
-    #parse_image_result = parse_image('photo_2021-06-10_09-49-26.jpg')
-    #find_icd_block_result = find_icd_block(parse_image_result)
-    #icd_treatment_result = icd_treatment(['J34.2'])
-    #parse_pdf_result = parse_pdf('data/epic.pdf')
-    #print('parse_pdf result:', parse_pdf_result)
-    #print('phrase_detect result:', phrase_detect_result)
-    #print('parse_image result:', parse_image_result)
-    #print('code_block result:', find_icd_block_result)
-    #print('icd_treatment_result:', icd_treatment_result)
-    parse_html_result = parse_html('data/SMSV8_v.3.4.html')
-    res = []
-    for i in parse_html_result:
-        res.extend(icd_regex(i))
-    print(res)
-    treatments = icd_treatment(res)
-    print(treatments)
+    result = process_html('data/SMSV8_v.3.4.html', 60)
+    print(result)
 
 if __name__ == "__main__":
     test()
