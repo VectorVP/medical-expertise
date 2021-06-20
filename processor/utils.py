@@ -208,7 +208,6 @@ def test():
     print(res)
     treatments = icd_treatment(res)
     print(treatments)
-    for i in parse_html_result:
 
 if __name__ == "__main__":
     test()
