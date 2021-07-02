@@ -24,6 +24,7 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from selectolax.parser import HTMLParser
 
+
 def preprocessor(image_str):
     """ Convert image-string (bytes) to original image.
 
@@ -38,6 +39,7 @@ def preprocessor(image_str):
     image = cv2.imdecode(image, 0)
     return image
 
+
 def icd_regex(text):
     """ Find ICD-10 codes in the text.
 
@@ -51,6 +53,7 @@ def icd_regex(text):
     pattern = r'[A-Z]\d+\.?\d+?'
     icd_codes = re.findall(pattern, text)
     return icd_codes
+
 
 def parse_image(image_path):
     """ Find ICD-10 codes in the image.
@@ -67,6 +70,7 @@ def parse_image(image_path):
     icd_codes = icd_regex(img_data['text'])
     icd_codes = list(filter(lambda x: x != 'B10', icd_codes))
     return icd_codes_image
+
 
 def parse_pdf(pdf_path):
     """ Find ICD-10 codes in pdf.
@@ -87,6 +91,7 @@ def parse_pdf(pdf_path):
             text.append(pdf_page.extractText())
     icd_codes_pdf = icd_regex(text)
     return icd_codes_pdf
+
 
 def parse_html(html_path):
     """ Parse html file and get list of sentences.
@@ -115,6 +120,7 @@ def parse_html(html_path):
     full_text = list(filter(lambda x: x != '', full_text))
     return full_text
 
+
 def find_icd_block(icd_codes):
     """Find hierarchy block for each icd code.
     With icd10 library it is also possible (e.g. code = J20.0):
@@ -138,6 +144,7 @@ def find_icd_block(icd_codes):
             icd_dict[i] = code.block
     return icd_dict
 
+
 def icd_treatment(icd_list):
     """ Returns treatment plan for every icd10 code.
 
@@ -158,6 +165,7 @@ def icd_treatment(icd_list):
             continue
     return procedures_dict
 
+
 def phrase_detect(list_base, phrase):
     """ Find similarity between source and parsed texts.
 
@@ -171,6 +179,7 @@ def phrase_detect(list_base, phrase):
 
     list_match = process.extract(phrase, list_base, scorer=fuzz.token_set_ratio, limit=30)
     return list_match[0]
+
 
 def xls_to_json(xls_path, json_path):
     """ Convert xls file with columns named ICD and KPI to json file.
@@ -196,6 +205,7 @@ def xls_to_json(xls_path, json_path):
         json.dump(dict_data, outfile, ensure_ascii=False, indent = 4)
     return f"Json file created: {json_path}"
 
+
 def process_html(html_path, threshold, icd_codes=None):
     """ Parse html, get ICD-10, procedures and find completed procedures due to rules.
 
@@ -219,6 +229,7 @@ def process_html(html_path, threshold, icd_codes=None):
     phrases = list(set([i for i in phrases])) # Remove similar tuples
     return first_pair[0], first_pair[1], phrases
 
+
 def test():
     start = time.time()
     result = process_html('data/SMSV8_v.3.4.html', 60)
@@ -227,6 +238,7 @@ def test():
           \n\nPROCEDURES: {result[1]} \
           \n\nCOMPLETED PROCEDURES: {result[2]} \
           \n\nTOTAL TIME: {end}')
+
 
 if __name__ == "__main__":
     test()
